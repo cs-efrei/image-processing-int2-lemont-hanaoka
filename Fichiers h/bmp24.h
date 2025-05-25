@@ -40,12 +40,30 @@ typedef struct {
     t_pixel **data;
 } t_bmp24;
 
-t_bmp24 *bmp24_loadImage(const char *filename);
-void bmp24_saveImage(const char *filename, t_bmp24 *img);
+// Allocation/deallocation
+t_pixel **bmp24_allocateDataPixels(int width, int height);
+void bmp24_freeDataPixels(t_pixel **pixels, int height);
+t_bmp24 *bmp24_allocate(int width, int height, int colorDepth);
 void bmp24_free(t_bmp24 *img);
 
+// I/O
+t_bmp24 *bmp24_loadImage(const char *filename);
+void bmp24_saveImage(const char *filename, t_bmp24 *img);
+
+// Processing
 void bmp24_negative(t_bmp24 *img);
 void bmp24_grayscale(t_bmp24 *img);
 void bmp24_brightness(t_bmp24 *img, int value);
+
+// Convolution
+t_pixel bmp24_convolution(t_bmp24 *img, int x, int y, float **kernel, int kernelSize);
+void bmp24_applyFilter(t_bmp24 *img, float **kernel, int kernelSize);
+
+// Filters
+void bmp24_boxBlur(t_bmp24 *img);
+void bmp24_gaussianBlur(t_bmp24 *img);
+void bmp24_outline(t_bmp24 *img);
+void bmp24_emboss(t_bmp24 *img);
+void bmp24_sharpen(t_bmp24 *img);
 
 #endif
